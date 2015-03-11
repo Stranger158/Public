@@ -1,0 +1,31 @@
+'скрипт для архивации файлов с последующим бекапом в сетевое хранилище
+
+'что архивировать
+Const SRC = """C:\Users\n.izvolskaya\Desktop\testfolder"""
+
+'куда залить 
+Const DST = """\\192.168.0.147\Admin\UsersBackup\"""
+
+'Префикс имени архивного файла
+Const PREFIX = "backup"
+
+'Расширение архивного файла
+Const EXT = ".zip"
+
+'Количество архивов
+Const HISTORY = 10
+
+'Чем архивировать
+Const PROGRAM = """%ProgramFiles%\7-Zip\7z.exe"""
+Const OPTIONS = "a -r -tzip -mx1 -x@exclude.txt"
+
+'Выдавать сообщение
+Const NOTIFY = True
+
+'Не завершать скрипт аварийно
+On Error Resume Next
+
+'Имя файла
+Dim file
+file = PREFIX & "_" & FormatDateTime(Date, 2) & EXT '2 = vbShortDate
+
