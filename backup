@@ -1,46 +1,10 @@
-'скрипт для архивации файлов с последующим бекапом в сетевое хранилище
-
-'что архивировать
-Const SRC = """C:\Users\n.izvolskaya\Desktop\testfolder"""
-
-'куда залить 
-Const DST = """\\192.168.0.147\Admin\UsersBackup\"""
-
-'Префикс имени архивного файла
-Const PREFIX = "backup"
-
-'Расширение архивного файла
-Const EXT = ".zip"
-
-'Количество архивов
-Const HISTORY = 10
-
-'Чем архивировать
-Const PROGRAM = """%ProgramFiles%\7-Zip\7z.exe"""
-Const OPTIONS = "a -r -tzip -mx1"
-
-'Выдавать сообщение
-Const NOTIFY = True
-
-'Не завершать скрипт аварийно
-On Error Resume Next
-
-'Имя файла
-Dim file
-file = PREFIX & "_" & FormatDateTime(Date, 2) & EXT '2 = vbShortDate
-
-'Пропустить если архив уже делался
-Dim fso
-Set fso = WScript.CreateObject("Scripting.FileSystemObject")
-If fso.FileExists(file) Then
-	If NOTIFY Then WScript.Echo "Резервное копирование каталога не удалось" & "Архив уже был создан ранее"
-	WScript.Quit
-End If
-
-'Создать архив, запомнить код ошибки
-Dim sho, ret
-Set sho = WScript.CreateObject("WScript.shell")
-ret = sho.Run(PROGRAM & " " & OPTIONS " " & file " " & SRC, 7, True)
-
-'Удаление старых файлов
-
+SET PASSWD=fCsm_1922
+SET COPYTO=\\192.168.0.147\admin\usersbackup\izvolskaya\
+SET DIRNAME=\\192.168.0.147\admin\usersbackup\izvolskaya\
+SET FILENAME=Backup_nizv
+SET SOURCEDIR=c:\users\n.izvolskaya\desktop\Backup
+rar a -r -m5 -dh \-p%PASSWD% %DIRNAME%\%FILENAME_new %SOURCEDIR%\*.*
+del %DIRNAME%\%FILENAME%_old.rar
+ren %DIRNAME%\%FILENAME%.rar %FILENAME%_old.rar
+ren %DIRNAME%\%FILENAME%_new.rar %FILENAME%.rar
+copy %DIRNAME%\%FILENAME%.rar %COPYTO%\%DIRNAME%
